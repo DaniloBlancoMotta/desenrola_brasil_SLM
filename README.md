@@ -141,27 +141,6 @@ do container — mudou a chave, rode `docker compose up -d --force-recreate api`
 | "Quanto o Nubank fez em Pequenos Negócios?" | Um número, sem gráfico |
 | "Qual a taxa Selic?" | Recusa e sugere o que é possível perguntar |
 
-O gráfico não é pedido pelo usuário nem escolhido pelo modelo: uma política de
-domínio decide pela forma do resultado. Uma linha só vira número puro; série
-temporal vira linha; ranking vira barra truncada nos 15 maiores; várias séries
-viram um gráfico comparativo.
-
-**As cores são medidas, não escolhidas.** A paleta passa por um validador que
-mede separação sob daltonismo, luminosidade, croma e contraste. A primeira
-versão reprovava — verde e vermelho colapsavam sob deuteranopia, indistinguíveis
-para cerca de 1 em cada 12 homens. A ordem dos slots foi validada par a par e
-não deve ser alterada; acima de oito séries a paleta não cicla. Detalhes e os
-números em [paleta.py](backend/infraestrutura/paleta.py).
-
-**Os números da tabela não passam pelo modelo.** A API devolve a série completa
-e o frontend a renderiza direto da fonte; ao modelo cabe comentar, não
-transcrever. Isso existe porque a versão anterior mandava ao modelo um resumo
-cortado em 20 linhas *sem avisar do corte* — ele então apresentou 20 dos 27
-estados como se fossem todos e, num caso, afirmou que os dados terminavam em
-abr/2025 quando vão até jun/2026, contradizendo o gráfico ao lado. Hoje o corte
-é anunciado em voz alta no texto que a ferramenta devolve.
-
----
 
 ## Arquitetura
 
@@ -191,21 +170,6 @@ O detalhamento das decisões está em [PLANO.md](PLANO.md).
 
 ---
 
-## Duas armadilhas dos dados
-
-**A identidade dos bancos quebra em jan/2025.** O Banco Central trocou o código
-do conglomerado: `BB` (cód. 49906) só existe até dez/2024 e `BB - PRUDENCIAL`
-(cód. 80329) começa em jan/2025, sem sobreposição. Tratados como entidades
-distintas, toda série temporal despencaria a zero em 2025 e os rankings
-dividiriam cada banco em dois. Por isso a identidade vem do nome canonizado, e
-o código é ignorado. Há teste de regressão contra o arquivo oficial.
-
-**O CSV fala por abreviação.** O arquivo traz `BB`, `ITAU` sem acento,
-`CAIXA ECONÔMICA FEDERAL`; o usuário digita "Banco do Brasil", "Itaú", "Caixa".
-A ponte é semântica, não textual — por isso o catálogo de conglomerados, já
-ordenado por relevância, entra no system prompt.
-
----
 
 ## Dados
 
@@ -214,28 +178,13 @@ Fonte: [dados_desenrola.csv](https://www.bcb.gov.br/pda/desig/desenrola/dados_de
 Arquivo em UTF-8, separado por ponto e vírgula, decimal por vírgula.
 10.937 registros, 34 meses, 27 UFs, 76 conglomerados.
 
-| Coluna | Conteúdo |
-|---|---|
-| `DATA_BASE` | Mês de referência no formato AAAAMM |
-| `TIPO_DESENROLA` | Tipos 1 e 2 são as faixas do Desenrola pessoas físicas; tipo 3 é Pequenos Negócios |
-| `UNIDADE_FEDERACAO` | Sigla da unidade da federação |
-| `COD_CONGLOMERADO_FINANCEIRO` | Código do conglomerado financeiro |
-| `NOME_CONGLOMERADO_FINANCEIRO` | Nome do conglomerado financeiro |
-| `NUMERO_OPERACOES` | Número de operações renegociadas no mês |
-| `VOLUME_OPERACOES` | Soma dos valores após o desconto, em reais |
-
-Atualizar é substituir `data/bacen_data.csv` e reiniciar o serviço `api`.
-
 ---
 
 ## Configuração
 
 | Variável | Padrão | Para quê |
 |---|---|---|
-| `GROQ_API_KEY` | — | Chave da Groq; sem ela `/api/chat` responde 503 |
+| `GROQ_API_KEY` | — | Chave da Groq;
 | `GROQ_MODEL` | `openai/gpt-oss-120b` | Modelo com tool calling |
 | `CSV_PATH` | `/data/bacen_data.csv` | Caminho do CSV no container |
 
-O modelo é variável de ambiente de propósito: a Groq depreciou
-`llama-3.3-70b-versatile` e `llama-3.1-8b-instant` em junho de 2026, e a
-próxima depreciação não deve exigir mudança de código.
