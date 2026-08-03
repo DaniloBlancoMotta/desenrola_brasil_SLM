@@ -200,11 +200,6 @@ distintas, toda série temporal despencaria a zero em 2025 e os rankings
 dividiriam cada banco em dois. Por isso a identidade vem do nome canonizado, e
 o código é ignorado. Há teste de regressão contra o arquivo oficial.
 
-**O CSV fala por abreviação.** O arquivo traz `BB`, `ITAU` sem acento,
-`CAIXA ECONÔMICA FEDERAL`; o usuário digita "Banco do Brasil", "Itaú", "Caixa".
-A ponte é semântica, não textual — por isso o catálogo de conglomerados, já
-ordenado por relevância, entra no system prompt.
-
 ---
 
 ## Dados
@@ -214,19 +209,6 @@ Fonte: [dados_desenrola.csv](https://www.bcb.gov.br/pda/desig/desenrola/dados_de
 Arquivo em UTF-8, separado por ponto e vírgula, decimal por vírgula.
 10.937 registros, 34 meses, 27 UFs, 76 conglomerados.
 
-| Coluna | Conteúdo |
-|---|---|
-| `DATA_BASE` | Mês de referência no formato AAAAMM |
-| `TIPO_DESENROLA` | Tipos 1 e 2 são as faixas do Desenrola pessoas físicas; tipo 3 é Pequenos Negócios |
-| `UNIDADE_FEDERACAO` | Sigla da unidade da federação |
-| `COD_CONGLOMERADO_FINANCEIRO` | Código do conglomerado financeiro |
-| `NOME_CONGLOMERADO_FINANCEIRO` | Nome do conglomerado financeiro |
-| `NUMERO_OPERACOES` | Número de operações renegociadas no mês |
-| `VOLUME_OPERACOES` | Soma dos valores após o desconto, em reais |
-
-Atualizar é substituir `data/bacen_data.csv` e reiniciar o serviço `api`.
-
----
 
 ## Configuração
 
@@ -236,6 +218,3 @@ Atualizar é substituir `data/bacen_data.csv` e reiniciar o serviço `api`.
 | `GROQ_MODEL` | `openai/gpt-oss-120b` | Modelo com tool calling |
 | `CSV_PATH` | `/data/bacen_data.csv` | Caminho do CSV no container |
 
-O modelo é variável de ambiente de propósito: a Groq depreciou
-`llama-3.3-70b-versatile` e `llama-3.1-8b-instant` em junho de 2026, e a
-próxima depreciação não deve exigir mudança de código.
