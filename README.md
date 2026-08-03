@@ -4,7 +4,7 @@ Converse em português com os dados abertos do programa **Desenrola Brasil**, do
 Banco Central. O agente consulta o CSV oficial com pandas, decide sozinho
 quando um gráfico ajuda, e responde no chat com o Plotly renderizado inline.
 
-![arquitetura](https://img.shields.io/badge/arquitetura-limpa-2563eb) ![testes](https://img.shields.io/badge/testes-189%20passando-1a7a4c)
+
 
 ---
 
