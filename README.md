@@ -104,7 +104,7 @@ docker compose down        # para tudo; os dados ficam no disco
 ## Comandos do dia a dia
 
 ```bash
-docker compose run --rm --no-deps api pytest        # 189 testes, sem rede
+docker compose run --rm --no-deps api pytest        # 192 testes, sem rede
 docker compose run --rm --no-deps api uv add <pkg>  # nova dependência
 docker compose build api                            # após mexer no pyproject
 docker compose logs -f api                          # acompanhar a API
@@ -180,7 +180,7 @@ backend/
   dominio/            Value Objects, enums, política de visualização, portas
   aplicacao/          Casos de uso e DTOs
   infraestrutura/     CSV, Plotly, Groq, HTTP — os adaptadores
-  tests/              96 testes, nenhum toca a rede
+  tests/              192 testes, nenhum toca a rede
 frontend/src/app/     Chat, Mensagem, Gráfico (standalone + signals)
 data/                 bacen_data.csv
 ```
@@ -196,7 +196,7 @@ Padrões aplicados: Repository, Ports & Adapters, Value Object, Strategy
 
 ---
 
-## Duas armadilhas dos dados
+## A armadilha dos dados
 
 **A identidade dos bancos quebra em jan/2025.** O Banco Central trocou o código
 do conglomerado: `BB` (cód. 49906) só existe até dez/2024 e `BB - PRUDENCIAL`
