@@ -28,6 +28,19 @@ class Metrica(Enum):
             Metrica.NUMERO_OPERACOES: "Numero de operacoes",
         }[self]
 
+    @property
+    def casas_decimais(self) -> int:
+        """Reais tem centavos; operacoes sao contagem e nao admitem fracao."""
+        return 2 if self is Metrica.VOLUME else 0
+
+    @property
+    def prefixo(self) -> str:
+        return "R$ " if self is Metrica.VOLUME else ""
+
+    @property
+    def sufixo(self) -> str:
+        return "" if self is Metrica.VOLUME else " operacoes"
+
     def formatar(self, valor: float) -> str:
         if self is Metrica.VOLUME:
             return f"R$ {_milhar_br(valor, 2)}"

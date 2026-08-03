@@ -62,10 +62,31 @@ class TestUnidadeFederacao:
 
 class TestMetrica:
     def test_formata_volume_no_padrao_brasileiro(self):
+        """Virgula decimal e ponto de milhar."""
         assert Metrica.VOLUME.formatar(1418395.99) == "R$ 1.418.395,99"
 
     def test_formata_contagem_sem_centavos(self):
         assert Metrica.NUMERO_OPERACOES.formatar(1418) == "1.418 operacoes"
+
+    def test_casas_decimais_seguem_a_natureza_da_medida(self):
+        assert Metrica.VOLUME.casas_decimais == 2
+        assert Metrica.NUMERO_OPERACOES.casas_decimais == 0
+
+    @pytest.mark.parametrize(
+        ("valor", "esperado"),
+        [
+            (2439623564.43, "R$ 2,4 bi"),
+            (1022240653.99, "R$ 1,0 bi"),
+            (867912345.0, "R$ 867,9 mi"),
+            (24700.0, "R$ 24,7 mil"),
+            (999.5, "R$ 1.000"),
+        ],
+    )
+    def test_forma_compacta_usa_virgula_decimal(self, valor, esperado):
+        assert Metrica.VOLUME.formatar_compacto(valor) == esperado
+
+    def test_compacto_de_contagem_dispensa_o_prefixo_de_moeda(self):
+        assert Metrica.NUMERO_OPERACOES.formatar_compacto(736172) == "736,2 mil"
 
 
 class TestTipoDesenrola:

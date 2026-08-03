@@ -181,6 +181,36 @@ class TestRotulosDeValor:
         assert traco["cliponaxis"] is False
 
 
+class TestFormatoBrasileiro:
+    def test_separadores_seguem_o_padrao_brasileiro(self, renderizador):
+        """Sem isto o Plotly escreve 736,172.00 -- virgula e ponto trocados."""
+        layout = renderizador.renderizar(especificacao(TipoGrafico.BARRA_VERTICAL))["layout"]
+        assert layout["separators"] == ",."
+
+    def test_volume_tem_centavos_no_hover(self, renderizador):
+        traco = renderizador.renderizar(especificacao(TipoGrafico.BARRA_VERTICAL))["data"][0]
+        assert "R$ %{y:,.2f}" in traco["hovertemplate"]
+
+    def test_operacoes_nao_tem_centavos(self, renderizador):
+        """Contagem nao admite fracao: '736.172,00 operacoes' seria absurdo."""
+        spec = EspecificacaoGrafico(
+            tipo=TipoGrafico.BARRA_VERTICAL,
+            titulo="Operacoes por UF",
+            rotulo_categoria="UF",
+            rotulo_valor="Numero de operacoes",
+            series=(Serie(LINHAS),),
+            metrica=Metrica.NUMERO_OPERACOES,
+        )
+        traco = renderizador.renderizar(spec)["data"][0]
+        assert "%{y:,.0f} operacoes" in traco["hovertemplate"]
+        assert "R$" not in traco["hovertemplate"]
+
+    def test_eixo_de_valor_arredonda_os_ticks(self, renderizador):
+        eixo = renderizador.renderizar(especificacao(TipoGrafico.LINHA))["layout"]["yaxis"]
+        assert eixo["tickformat"] == ",.0f"
+        assert eixo["tickprefix"] == "R$ "
+
+
 class TestChromeRecessivo:
     def test_grade_e_hairline_solida(self, renderizador):
         eixo = renderizador.renderizar(especificacao(TipoGrafico.BARRA_VERTICAL))["layout"]["yaxis"]

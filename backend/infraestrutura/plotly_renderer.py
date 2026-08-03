@@ -135,10 +135,18 @@ class RenderizadorPlotly:
 
     @staticmethod
     def _hover(especificacao: EspecificacaoGrafico, nome: str) -> str:
-        eixo_categoria = "%{y}" if especificacao.tipo is TipoGrafico.BARRA_HORIZONTAL else "%{x}"
-        eixo_valor = "%{x:,.2f}" if especificacao.tipo is TipoGrafico.BARRA_HORIZONTAL else "%{y:,.2f}"
-        sufixo = f"<extra>{nome}</extra>" if especificacao.comparativo else "<extra></extra>"
-        return f"<b>{eixo_categoria}</b><br>{eixo_valor}{sufixo}"
+        horizontal = especificacao.tipo is TipoGrafico.BARRA_HORIZONTAL
+        metrica = especificacao.metrica
+        eixo_categoria = "%{y}" if horizontal else "%{x}"
+        eixo = "x" if horizontal else "y"
+        # O separador vem de `separators` no layout; aqui so se define quantas
+        # casas o numero tem.
+        valor = f"%{{{eixo}:,.{metrica.casas_decimais}f}}"
+        serie = f"<extra>{nome}</extra>" if especificacao.comparativo else "<extra></extra>"
+        return (
+            f"<b>{eixo_categoria}</b><br>"
+            f"{metrica.prefixo}{valor}{metrica.sufixo}{serie}"
+        )
 
     def _layout(self, especificacao: EspecificacaoGrafico) -> go.Layout:
         horizontal = especificacao.tipo is TipoGrafico.BARRA_HORIZONTAL
@@ -157,6 +165,9 @@ class RenderizadorPlotly:
             paper_bgcolor=paleta.SUPERFICIE,
             plot_bgcolor=paleta.SUPERFICIE,
             font={"color": paleta.INK_SECUNDARIO, "size": 12},
+            # Padrao brasileiro: virgula decimal, ponto de milhar. Sem isto o
+            # Plotly escreve "736,172.00", com os dois separadores trocados.
+            separators=",.",
             barmode="group",
             # O vao entre marcas e feito de superficie, nao de contorno.
             bargap=0.3,
@@ -185,6 +196,10 @@ class RenderizadorPlotly:
             "title": {"text": "" if rotulados else especificacao.rotulo_valor,
                       "font": {"color": paleta.INK_MUTED}},
             "visible": not rotulados,
+            "tickprefix": especificacao.metrica.prefixo,
+            # Ticks arredondados: "R$ 2.500.000,00" polui a escala. O valor
+            # exato, com centavos, aparece no hover e na tabela.
+            "tickformat": ",.0f",
             # Hairline solida e recessiva: a grade nunca compete com o dado.
             "gridcolor": paleta.GRADE,
             "gridwidth": 1,
