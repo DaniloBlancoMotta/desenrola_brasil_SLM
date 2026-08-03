@@ -1,0 +1,17 @@
+.env
+
+# Dado publico do BCB, baixado no primeiro uso (ver README).
+data/*.csv
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# Angular
+node_modules/
+dist/
+.angular/
+out-tsc/

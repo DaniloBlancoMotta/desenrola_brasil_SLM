@@ -1,0 +1,166 @@
+.painel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: 0.7rem;
+}
+
+.cabecalho {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.identidade {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.rotulo {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+.identidade a {
+  color: var(--texto);
+  font-weight: 550;
+  font-size: 0.94rem;
+  text-decoration: none;
+}
+
+.identidade a:hover {
+  color: var(--acento);
+  text-decoration: underline;
+}
+
+.cabecalho button {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--borda);
+  border-radius: 0.45rem;
+  background: none;
+  color: var(--texto-suave);
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cabecalho button:hover {
+  border-color: var(--acento);
+  color: var(--acento);
+}
+
+.numeros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.numero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.numero dt {
+  font-size: 0.72rem;
+  color: var(--texto-suave);
+}
+
+.numero dd {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  flex-direction: column;
+}
+
+.detalhe {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--texto-suave);
+}
+
+.detalhes {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--borda);
+}
+
+.bloco h3 {
+  margin: 0 0 0.45rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+.pilulas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pilulas li {
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--borda);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+.dicionario {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem 0.9rem;
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.dicionario dt {
+  font-family: ui-monospace, "Cascadia Mono", Menlo, monospace;
+  font-size: 0.76rem;
+  color: var(--acento);
+  white-space: nowrap;
+}
+
+.dicionario dd {
+  margin: 0;
+  color: var(--texto-suave);
+}
+
+.nota {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+}
+
+@media (max-width: 34rem) {
+  .dicionario {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+
+  .dicionario dd {
+    margin-bottom: 0.5rem;
+  }
+}

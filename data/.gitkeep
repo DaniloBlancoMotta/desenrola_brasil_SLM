@@ -1,0 +1,3 @@
+# Mantem o diretorio no repositorio: o docker-compose monta ./data no container
+# e a subida falha se ele nao existir. O CSV em si nao e versionado -- baixe-o
+# conforme o README.

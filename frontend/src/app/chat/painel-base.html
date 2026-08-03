@@ -1,0 +1,42 @@
+<section class="painel">
+  <div class="cabecalho">
+    <div class="identidade">
+      <span class="rotulo">Fonte dos dados</span>
+      <a [href]="base().url" target="_blank" rel="noopener">{{ base().fonte }}</a>
+    </div>
+    <button type="button" (click)="alternar()" [attr.aria-expanded]="aberto()">
+      {{ aberto() ? 'Menos detalhes' : 'O que há na base' }}
+    </button>
+  </div>
+
+  <dl class="numeros">
+    @for (item of resumo(); track item.rotulo) {
+      <div class="numero">
+        <dt>{{ item.rotulo }}</dt>
+        <dd>
+          {{ item.valor }}
+          <span class="detalhe">{{ item.detalhe }}</span>
+        </dd>
+      </div>
+    }
+  </dl>
+
+  @if (aberto()) {
+    <div class="detalhes">
+      <div class="bloco">
+        <h3>Colunas do arquivo</h3>
+        <dl class="dicionario">
+          @for (coluna of colunas(); track coluna[0]) {
+            <dt>{{ coluna[0] }}</dt>
+            <dd>{{ coluna[1] }}</dd>
+          }
+        </dl>
+      </div>
+
+      <p class="nota">
+        {{ base().registros.toLocaleString('pt-BR') }} registros carregados do arquivo local.
+        Atualizar é substituir o CSV e reiniciar o serviço.
+      </p>
+    </div>
+  }
+</section>

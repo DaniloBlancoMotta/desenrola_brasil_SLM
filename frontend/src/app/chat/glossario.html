@@ -1,0 +1,33 @@
+<aside class="glossario">
+  <header>
+    <h2>Glossário</h2>
+    <p>As três modalidades do programa e o que separa uma da outra.</p>
+  </header>
+
+  <ol class="verbetes">
+    @for (verbete of verbetes(); track verbete.codigo) {
+      <li class="verbete" [style.--tom]="verbete.cor">
+        <div class="titulo">
+          <span class="codigo" [style.background]="verbete.cor">{{ verbete.codigo }}</span>
+          <div>
+            <h3>{{ verbete.nome }}</h3>
+            <p class="tese">{{ verbete.tese }}</p>
+          </div>
+        </div>
+
+        <dl>
+          @for (campo of verbete.campos; track campo.rotulo) {
+            <dt>{{ campo.rotulo }}</dt>
+            <dd>{{ campo.valor }}</dd>
+          }
+        </dl>
+
+        <footer>{{ verbete.base_legal }}</footer>
+      </li>
+    }
+  </ol>
+
+  <p class="nota">
+    O código da modalidade é o campo <code>TIPO_DESENROLA</code> do arquivo do Banco Central.
+  </p>
+</aside>

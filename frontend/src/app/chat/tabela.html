@@ -1,0 +1,41 @@
+<figure class="quadro">
+  <figcaption>
+    {{ tabela().metrica }}
+    @if (tabela().titulo) {
+      <span class="filtro">· {{ tabela().titulo }}</span>
+    }
+  </figcaption>
+
+  <div class="rolagem">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{{ tabela().dimensao }}</th>
+          @for (serie of tabela().series; track serie) {
+            <th scope="col" class="numero">{{ serie }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (linha of linhas(); track linha.rotulo) {
+          <tr>
+            <th scope="row">{{ linha.rotulo }}</th>
+            @for (serie of tabela().series; track serie) {
+              <td class="numero">{{ formatar(linha.valores[serie]) }}</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (ocultas() > 0 || expandida()) {
+    <button type="button" (click)="alternar()">
+      @if (expandida()) {
+        Mostrar menos
+      } @else {
+        Mostrar mais {{ ocultas() }}
+      }
+    </button>
+  }
+</figure>

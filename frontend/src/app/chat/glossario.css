@@ -1,0 +1,123 @@
+.glossario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+header h2 {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  font-weight: 650;
+}
+
+header p {
+  margin: 0.3rem 0 0;
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+  line-height: 1.45;
+}
+
+.verbetes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: none;
+}
+
+.verbete {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.8rem 0.85rem;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  /* A cor da modalidade entra como faixa lateral: identifica sem tingir o texto. */
+  border-left: 3px solid var(--tom);
+  border-radius: 0.55rem;
+}
+
+.titulo {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.codigo {
+  flex: none;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 0.35rem;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 650;
+  display: grid;
+  place-items: center;
+  margin-top: 0.1rem;
+}
+
+.titulo h3 {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 620;
+  line-height: 1.25;
+}
+
+.tese {
+  margin: 0.1rem 0 0;
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+  line-height: 1.4;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.45rem;
+  margin: 0;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--borda);
+}
+
+dt {
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  font-weight: 620;
+}
+
+dd {
+  margin: 0.1rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--texto);
+}
+
+.verbete footer {
+  font-size: 0.72rem;
+  color: var(--texto-suave);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--borda);
+}
+
+.nota {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+
+.nota code {
+  font-family: ui-monospace, 'Cascadia Mono', Menlo, monospace;
+  font-size: 0.9em;
+  color: var(--acento);
+}

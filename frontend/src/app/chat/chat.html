@@ -1,0 +1,53 @@
+@if (base(); as resumo) {
+  <app-glossario class="lateral" [modalidades]="resumo.modalidades" />
+}
+
+<div class="principal">
+<header class="topo">
+  <div class="marca">
+    <h1>Desenrola Brasil</h1>
+    <p>Converse com os dados abertos do programa</p>
+  </div>
+
+  @if (mensagens().length > 0) {
+    <div class="acoes">
+      <button type="button" class="acao" (click)="exportar()" title="Salvar a conversa em PDF">
+        Exportar PDF
+      </button>
+
+      @if (confirmandoLimpeza()) {
+        <button type="button" class="acao perigo" (click)="limpar()">Confirmar</button>
+        <button type="button" class="acao" (click)="cancelarLimpeza()">Cancelar</button>
+      } @else {
+        <button type="button" class="acao" (click)="limpar()">Limpar conversa</button>
+      }
+    </div>
+  }
+</header>
+
+@if (base(); as resumo) {
+  <app-painel-base [base]="resumo" />
+}
+
+<section class="conversa" #rolagem>
+  @for (mensagem of mensagens(); track $index) {
+    <app-mensagem [mensagem]="mensagem" />
+  }
+
+  @if (carregando()) {
+    <p class="pensando" role="status">Consultando os dados…</p>
+  }
+</section>
+
+<form class="entrada" (ngSubmit)="enviar()">
+  <input
+    name="pergunta"
+    [ngModel]="texto()"
+    (ngModelChange)="texto.set($event)"
+    placeholder="Pergunte sobre os dados do Desenrola…"
+    autocomplete="off"
+    aria-label="Sua pergunta"
+  />
+  <button type="submit" [disabled]="carregando() || !texto().trim()">Enviar</button>
+</form>
+</div>

@@ -1,0 +1,138 @@
+/* Os tokens de tinta e o acento acompanham a paleta validada dos graficos
+   (backend/infraestrutura/paleta.py), para que a interface e o dado falem a
+   mesma lingua visual. */
+:root {
+  --fundo: #f9f9f7;
+  --superficie: #ffffff;
+  --borda: #e1e0d9;
+  --texto: #0b0b0b;
+  --texto-suave: #52514e;
+  --acento: #2a78d6;
+  --erro: #d03b3b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--fundo);
+  color: var(--texto);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+/* Exportação em PDF ------------------------------------------------
+   O diálogo de impressão do navegador é o gerador: aqui a conversa vira
+   documento — sem controles, sem altura de tela, e sem cortar uma mensagem
+   ao meio na virada de página. */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  html,
+  body {
+    height: auto;
+    background: #fff;
+  }
+
+  /* Flex com `order` porque o glossário vem antes no DOM (é a coluna da
+     esquerda), mas no documento ele é anexo: sai depois da conversa. */
+  app-chat {
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  .principal {
+    order: 1;
+    display: block !important;
+  }
+
+  .lateral {
+    order: 2;
+    display: block !important;
+    border: 0 !important;
+    break-before: page;
+    page-break-before: always;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .verbete {
+    break-inside: avoid;
+  }
+
+  /* Controles não existem no papel. */
+  .acoes,
+  .entrada,
+  app-tabela button,
+  app-painel-base button {
+    display: none !important;
+  }
+
+  .conversa {
+    overflow: visible !important;
+    flex: none !important;
+  }
+
+  .topo {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 6pt;
+    margin-bottom: 10pt;
+  }
+
+  /* Uma resposta e o seu gráfico ficam juntos na mesma página. */
+  app-mensagem {
+    display: block;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .bolha {
+    max-width: none !important;
+    width: auto !important;
+    border-color: #ddd !important;
+  }
+
+  .propria .bolha {
+    background: #f2f2f2 !important;
+    color: #000 !important;
+    border-color: #ddd !important;
+  }
+
+  /* A tabela sai inteira e repete o cabeçalho quando cruza a página. */
+  .rolagem {
+    overflow: visible !important;
+    border-color: #ddd !important;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr {
+    break-inside: avoid;
+  }
+
+  a[href]::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.75em;
+    color: #555;
+  }
+}

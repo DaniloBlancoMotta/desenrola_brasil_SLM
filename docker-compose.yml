@@ -1,0 +1,29 @@
+services:
+  api:
+    build: ./backend
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      # inotify nao atravessa bind mount no Docker Desktop/Windows:
+      # sem polling o --reload nunca dispara.
+      WATCHFILES_FORCE_POLLING: "true"
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-openai/gpt-oss-120b}
+      CSV_PATH: /data/bacen_data.csv
+    volumes:
+      - ./backend:/app
+      - ./data:/data:ro
+    ports:
+      - "8000:8000"
+
+  web:
+    build: ./frontend
+    command: npm start -- --host 0.0.0.0 --port 4200 --poll 2000
+    volumes:
+      - ./frontend:/app
+      # Volume anonimo: preserva o node_modules da imagem, que senao
+      # seria escondido pelo bind mount acima.
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    depends_on:
+      - api
