@@ -187,7 +187,12 @@ data/                 bacen_data.csv
 
 Padrões aplicados: Repository, Ports & Adapters, Value Object, Strategy
 (política de visualização), Query Object, DTO, Dependency Injection e Factory.
-O detalhamento das decisões está em [PLANO.md](PLANO.md).
+
+- **[ARQUITETURA.md](ARQUITETURA.md)** — como o agente funciona por dentro: o
+  laço de tool-calling, o contrato da ferramenta, os guardrails e o que se usa
+  (e não se usa) do LangChain.
+- **[PLANO.md](PLANO.md)** — as decisões de projeto e por que cada uma foi
+  tomada.
 
 ---
 
